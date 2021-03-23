@@ -129,7 +129,8 @@
     font-size: 18px;
 }
 
-.post_container input {
+.post_container input,
+.post_container textarea {
     border: 2px solid #cccccc;
     border-radius: 6px;
     width: 100%;
@@ -137,7 +138,8 @@
     margin: 8px 0;
 }
 
-.post_container input:focus {
+.post_container input:focus,
+.post_container textarea:focus {
     border: 2px solid #4BAE50;
     outline: none;
 }

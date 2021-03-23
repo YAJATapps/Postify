@@ -188,7 +188,7 @@
             // New post box
             let posts = "<div class='post_container'><h1>New post</h1>" +
                 "<input type='text' id='postTitle' name='postTitle' placeholder='Write a title'><br><br>" +
-                "<input type='text' id='postDescription' name='postDescription' placeholder='Description here'><br><br>" +
+                "<textarea id='postDescription' name='postDescription' placeholder='Description here' rows='4' style='resize: none'></textarea><br><br>" +
                 "<button type='button' id='create_post_button' class='button_post'>Create a post</button>" +
                 "</div>";
 
@@ -204,7 +204,7 @@
                     posts += "<div class='post_container' id='user_post' post-id=" + postId + ">" +
                         "<h1 class='post_title'>" + postInfo[2] + "</h1>" +
                         "<h1 class='post_user'>-by " + postInfo[1] + "</h1><br>" +
-                        "<h3 class='post_description'>" + postInfo[3] + "</h2>" +
+                        "<p class='post_description' style='white-space: pre-wrap; font-size: 1.5em'>" + postInfo[3] + "</p>" +
                         "<div class='post_button' id='like_post' post-id=" + postId + ">" +
                         "<img src='img/like_outline.png'>" +
                         "<h4>Like</h4>" +
