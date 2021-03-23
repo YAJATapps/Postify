@@ -138,6 +138,41 @@
 
     // Load posts click listener
     $('#load_posts_div').click(function(event) {
+        currentFirst = 0;
+        loadPosts();
+    });
+
+    // Profile submit modal window button
+    $('#submit_profile').click(function(event) {
+        $('#modal-profile').modal('hide');
+        let email = $('#modify_email').val();
+        let status = $('#modify_status').val()
+        let controller = 'controller.php';
+        let query = 'page=MainPage&command=UpdateProfile&profile-email=' + email + '&profile-status=' + status;
+        $.post(controller, query, function(data) {
+            alert('Profile successfully updated!');
+        });
+    });
+
+
+    // Logout click listener
+    $('#logout_div').click(function(event) {
+        $('#logout_form').submit();
+    });
+
+
+    // Set initial values in modify profile
+    $(document).ready(function() {
+        let controller = 'controller.php';
+        let query = 'page=MainPage&command=FetchEmailStatus';
+        $.post(controller, query, function(data) {
+            let initArr = JSON.parse(data);
+            $('#modify_email').val(initArr[0]);
+            $('#modify_status').val(initArr[1]);
+        });
+    });
+
+    function loadPosts() {
         let controller = "controller.php";
         let query = "page=MainPage&command=ReadPosts";
         $.post(controller, query, function(data) {
@@ -151,34 +186,42 @@
                 "<button type='button' id='create_post_button' class='button_post'>Create a post</button>" +
                 "</div>";
 
+
+            let currentPagePosts = 0;
             // Fetch posts from database
             for (let i = currentFirst; i < postsArr.length; i++) {
                 //let controller = 'controller.php';
                 //let query = 'page=MainPage&command=ReadUnsubscribedUsers';
                 //$.post(controller, query, function(data) {
-                    //let blockedArr = JSON.parse(data);
-                   // alert('d'+postsArr[i][1]+'f');
-                   // if (blockedArr.indexOf(postsArr[i][1]) > -1) {
-                        posts += "<div class='post_container' id='user_post' post-id=" + postsArr[i][0] + ">" +
-                            "<h1 class='post_title'>" + postsArr[i][2] + "</h1>" +
-                            "<h1 class='post_user'>-by " + postsArr[i][1] + "</h1><br>" +
-                            "<h3 class='post_description'>" + postsArr[i][3] + "</h2>" +
-                            "<div class='post_button' id='like_post' post-id=" + postsArr[i][0] + ">" +
-                            "<img src='img/like_outline.png'>" +
-                            "<h4>Like</h4>" +
-                            "</div>" +
-                            "<div class='post_button' id='write_comment' post-id=" + postsArr[i][0] + ">" +
-                            "<img src='img/comment.png'>" +
-                            "<h4>Write comment</h4>" +
-                            "</div>" +
-                            "<div class='post_button' id='load_comments' post-id=" + postsArr[i][0] + ">" +
-                            "<img src='img/refresh.png'>" +
-                            "<h4>Read comments</h4>" +
-                            "</div>" +
-                            "<div id='comments_box' style='display:none'>" +
-                            "</div>" +
-                            "</div>";
-                    //}
+                //let blockedArr = JSON.parse(data);
+                // alert('d'+postsArr[i][1]+'f');
+                // if (blockedArr.indexOf(postsArr[i][1]) > -1) {
+                posts += "<div class='post_container' id='user_post' post-id=" + postsArr[i][0] + ">" +
+                    "<h1 class='post_title'>" + postsArr[i][2] + "</h1>" +
+                    "<h1 class='post_user'>-by " + postsArr[i][1] + "</h1><br>" +
+                    "<h3 class='post_description'>" + postsArr[i][3] + "</h2>" +
+                    "<div class='post_button' id='like_post' post-id=" + postsArr[i][0] + ">" +
+                    "<img src='img/like_outline.png'>" +
+                    "<h4>Like</h4>" +
+                    "</div>" +
+                    "<div class='post_button' id='write_comment' post-id=" + postsArr[i][0] + ">" +
+                    "<img src='img/comment.png'>" +
+                    "<h4>Write comment</h4>" +
+                    "</div>" +
+                    "<div class='post_button' id='load_comments' post-id=" + postsArr[i][0] + ">" +
+                    "<img src='img/refresh.png'>" +
+                    "<h4>Read comments</h4>" +
+                    "</div>" +
+                    "<div id='comments_box' style='display:none'>" +
+                    "</div>" +
+                    "</div>";
+                currentPagePosts++;
+
+                if (currentPagePosts == 20) {
+                    break;
+                }
+
+                //}
                 //});
             }
 
@@ -189,9 +232,11 @@
 
             // Next page button
             $("#next_posts").click(function() {
-                if(totalPosts%20>2) {
+                if (Math.floor((totalPosts - currentFirst) / 20) > 0) {
                     currentFirst += 20;
-                    $('#load_posts_div').click();
+                    loadPosts();
+                } else {
+                    alert('You have reached last page. No more posts to show.');
                 }
             });
 
@@ -313,36 +358,5 @@
                 });
             });
         });
-    });
-
-
-    // Profile submit modal window button
-    $('#submit_profile').click(function(event) {
-        $('#modal-profile').modal('hide');
-        let email = $('#modify_email').val();
-        let status = $('#modify_status').val()
-        let controller = 'controller.php';
-        let query = 'page=MainPage&command=UpdateProfile&profile-email=' + email + '&profile-status=' + status;
-        $.post(controller, query, function(data) {
-            alert('Profile successfully updated!');
-        });
-    });
-
-
-    // Logout click listener
-    $('#logout_div').click(function(event) {
-        $('#logout_form').submit();
-    });
-
-
-    // Set initial values in modify profile
-    $(document).ready(function() {
-        let controller = 'controller.php';
-        let query = 'page=MainPage&command=FetchEmailStatus';
-        $.post(controller, query, function(data) {
-            let initArr = JSON.parse(data);
-            $('#modify_email').val(initArr[0]);
-            $('#modify_status').val(initArr[1]);
-        });
-    });
+    }
 </script>
