@@ -155,9 +155,7 @@
         let status = $('#modify_status').val()
         let controller = 'controller.php';
         let query = 'page=MainPage&command=UpdateProfile&profile-email=' + email + '&profile-status=' + status;
-        $.post(controller, query, function(data) {
-            alert('Profile successfully updated!');
-        });
+        $.post(controller, query);
     });
 
 
@@ -268,7 +266,6 @@
                         alert('Post was already liked');
                     else {
                         like_icon.attr('src', 'img/like.png');
-                        alert('Post liked');
                     }
                 });
             });
@@ -280,9 +277,7 @@
                     let post_id = $(this).attr('post-id');
                     let controller = 'controller.php';
                     let query = 'page=MainPage&command=CreateComment&post-comment=' + comment + '&post-id=' + post_id;
-                    $.post(controller, query, function(data) {
-                        alert('Comment posted');
-                    });
+                    $.post(controller, query);
                 }
             });
 
@@ -330,7 +325,7 @@
                                 let controller = "controller.php";
                                 let query = 'page=MainPage&command=DeletePost&post-id=' + post_id;
                                 $.post(controller, query, function(data) {
-                                    alert('Post deleted successfully')
+                                    $('#load_posts_div').click();
                                 });
                             });
                         } else {
@@ -341,9 +336,11 @@
                                 let query = 'page=MainPage&command=UnsubscribeUser&post-user=' + poster_username;
                                 $.post(controller, query, function(data) {
                                     if (data.includes('already_unsubscribed'))
-                                        alert(poster_username + ' was already unsubscribed')
-                                    else
-                                        alert(poster_username + ' has been successfully unsubscribed')
+                                        alert(poster_username + ' was already unsubscribed');
+                                    else {
+                                        alert(poster_username + ' has been successfully unsubscribed');
+                                        $('#load_posts_div').click();
+                                    }
                                 });
                             });
                         }
@@ -358,7 +355,7 @@
                 let controller = 'controller.php';
                 let query = 'page=MainPage&command=CreatePost&post-title=' + title + '&post-description=' + description;
                 $.post(controller, query, function(data) {
-                    alert('Successfully posted, The posts will reload');
+                    // Successfully posted, The posts will reload
                     $('#load_posts_div').click();
                 });
             });
