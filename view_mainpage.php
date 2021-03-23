@@ -125,7 +125,9 @@
 
     // Resize event
     $(window).resize(function() {
-        let logoutHeight = ($('#logout_div').height());
+        let bottomOffset = 30;
+
+        let logoutHeight = ($('#logout_div').height()) + bottomOffset;
         $("#logout_div").css({
             bottom: logoutHeight + "px"
         });
