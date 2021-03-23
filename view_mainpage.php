@@ -139,7 +139,13 @@
     // Load posts click listener
     $('#load_posts_div').click(function(event) {
         currentFirst = 0;
-        loadPosts();
+
+        let controller = 'controller.php';
+        let query = 'page=MainPage&command=ReadUnsubscribedUsers';
+        $.post(controller, query, function(data) {
+            let blockedArr = JSON.parse(data);
+            loadPosts(blockedArr);
+        });
     });
 
     // Profile submit modal window button
@@ -172,12 +178,12 @@
         });
     });
 
-    function loadPosts() {
+    function loadPosts(blockedList) {
         let controller = "controller.php";
         let query = "page=MainPage&command=ReadPosts";
         $.post(controller, query, function(data) {
             let postsArr = JSON.parse(data);
-            totalPosts = postsArr.length;
+            totalPosts = getTotalPosts(postsArr, blockedList);
 
             // New post box
             let posts = "<div class='post_container'><h1>New post</h1>" +
@@ -188,41 +194,39 @@
 
 
             let currentPagePosts = 0;
+
             // Fetch posts from database
             for (let i = currentFirst; i < postsArr.length; i++) {
-                //let controller = 'controller.php';
-                //let query = 'page=MainPage&command=ReadUnsubscribedUsers';
-                //$.post(controller, query, function(data) {
-                //let blockedArr = JSON.parse(data);
-                // alert('d'+postsArr[i][1]+'f');
-                // if (blockedArr.indexOf(postsArr[i][1]) > -1) {
-                posts += "<div class='post_container' id='user_post' post-id=" + postsArr[i][0] + ">" +
-                    "<h1 class='post_title'>" + postsArr[i][2] + "</h1>" +
-                    "<h1 class='post_user'>-by " + postsArr[i][1] + "</h1><br>" +
-                    "<h3 class='post_description'>" + postsArr[i][3] + "</h2>" +
-                    "<div class='post_button' id='like_post' post-id=" + postsArr[i][0] + ">" +
-                    "<img src='img/like_outline.png'>" +
-                    "<h4>Like</h4>" +
-                    "</div>" +
-                    "<div class='post_button' id='write_comment' post-id=" + postsArr[i][0] + ">" +
-                    "<img src='img/comment.png'>" +
-                    "<h4>Write comment</h4>" +
-                    "</div>" +
-                    "<div class='post_button' id='load_comments' post-id=" + postsArr[i][0] + ">" +
-                    "<img src='img/refresh.png'>" +
-                    "<h4>Read comments</h4>" +
-                    "</div>" +
-                    "<div id='comments_box' style='display:none'>" +
-                    "</div>" +
-                    "</div>";
-                currentPagePosts++;
+                let postInfo = postsArr[i];
+
+                if (!blockedList.includes(postInfo[1])) {
+                    let postId = postInfo[0];
+                    posts += "<div class='post_container' id='user_post' post-id=" + postId + ">" +
+                        "<h1 class='post_title'>" + postInfo[2] + "</h1>" +
+                        "<h1 class='post_user'>-by " + postInfo[1] + "</h1><br>" +
+                        "<h3 class='post_description'>" + postInfo[3] + "</h2>" +
+                        "<div class='post_button' id='like_post' post-id=" + postId + ">" +
+                        "<img src='img/like_outline.png'>" +
+                        "<h4>Like</h4>" +
+                        "</div>" +
+                        "<div class='post_button' id='write_comment' post-id=" + postId + ">" +
+                        "<img src='img/comment.png'>" +
+                        "<h4>Write comment</h4>" +
+                        "</div>" +
+                        "<div class='post_button' id='load_comments' post-id=" + postId + ">" +
+                        "<img src='img/refresh.png'>" +
+                        "<h4>Read comments</h4>" +
+                        "</div>" +
+                        "<div id='comments_box' style='display:none'>" +
+                        "</div>" +
+                        "</div>";
+
+                    currentPagePosts++;
+                }
 
                 if (currentPagePosts == 20) {
                     break;
                 }
-
-                //}
-                //});
             }
 
             posts += "<h3 style='text-align: center'>End of this page... Press next page to load next page posts</h3>";
@@ -232,9 +236,10 @@
 
             // Next page button
             $("#next_posts").click(function() {
-                if (Math.floor((totalPosts - currentFirst) / 20) > 0) {
+                let currentPagePosts = totalPosts - currentFirst;
+                if (Math.floor(currentPagePosts / 20) > 0 && currentPagePosts % 20 > 0) {
                     currentFirst += 20;
-                    loadPosts();
+                    loadPosts(blockedList);
                 } else {
                     alert('You have reached last page. No more posts to show.');
                 }
@@ -358,5 +363,15 @@
                 });
             });
         });
+    }
+
+    // Returns the total number of posts. Total posts in db - Total posts by blocked users
+    function getTotalPosts(posts, blocked) {
+        let count = 0;
+        for (let i = 0; i < posts.length; i++) {
+            if (!blocked.includes(posts[i][1]))
+                count++;
+        }
+        return count;
     }
 </script>
