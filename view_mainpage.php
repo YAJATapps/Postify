@@ -356,12 +356,20 @@
             $("#create_post_button").click(function(event) {
                 let title = $('#postTitle').val();
                 let description = $('#postDescription').val()
-                let controller = 'controller.php';
-                let query = 'page=MainPage&command=CreatePost&post-title=' + title + '&post-description=' + description;
-                $.post(controller, query, function(data) {
-                    // Successfully posted, The posts will reload
-                    $('#load_posts_div').click();
-                });
+
+                if (!title) {
+                    alert('Post title cannot be empty');
+                } else if (!description) {
+                    alert('Post description cannot be empty');
+                } else {
+                    let controller = 'controller.php';
+                    let query = 'page=MainPage&command=CreatePost&post-title=' + title + '&post-description=' + description;
+                    $.post(controller, query, function(data) {
+                        // Successfully posted, The posts will reload
+                        $('#load_posts_div').click();
+                    });
+                }
+
             });
         });
     }
