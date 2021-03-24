@@ -143,3 +143,8 @@
     border: 2px solid #4BAE50;
     outline: none;
 }
+
+#next_posts::before {
+    content: url(../img/next.png);
+    padding-right: 10px;
+}

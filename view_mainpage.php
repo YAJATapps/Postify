@@ -199,6 +199,7 @@
             for (let i = currentFirst; i < postsArr.length; i++) {
                 let postInfo = postsArr[i];
 
+                // Post box
                 if (!blockedList.includes(postInfo[1])) {
                     let postId = postInfo[0];
                     posts += "<div class='post_container' id='user_post' post-id=" + postId + ">" +
@@ -229,8 +230,9 @@
                 }
             }
 
+            // Next page button
             posts += "<h3 style='text-align: center'>End of this page... Press next page to load next page posts</h3>";
-            posts += "<h2 style='color: blue; text-align: center'; id='next_posts'>Next page</h2>";
+            posts += "<h2 style='color: #4285F4; text-align: center' id='next_posts'>Next page</h2><br>";
 
             $('#content_root').html(posts);
 
