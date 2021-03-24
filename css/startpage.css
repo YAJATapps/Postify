@@ -12,7 +12,7 @@
     float: left;
 }
 
-#content-right {
+#content_right {
     width: 60vw;
     height: 90vh;
     left: 40vw;
@@ -20,6 +20,32 @@
     position: absolute;
     background-color: #f0f2f5;
     float: left;
+}
+
+#content_bottom {
+    width: 100vw;
+    height: 10vh;
+    left: 0;
+    top: 90vh;
+    position: absolute;
+    background-color: #4BAE50;
+    float: left;
+    padding-top: 2vh;
+    padding-left: 24px;
+}
+
+#content_bottom img {
+    margin-right: 16px;
+    width: 6vh;
+    height: 6vh;
+}
+
+#content_bottom h1 {
+    display: inline;
+    vertical-align: middle;
+    line-height: 6vh;
+    height: 6vh;
+    color: white;
 }
 
 .button_post {

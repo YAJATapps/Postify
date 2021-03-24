@@ -18,7 +18,7 @@
             <h2>Connect with people around Postify.</h2>
         </div>
     </div>
-    <div id='content-right'>
+    <div id='content_right'>
         <div id='login-container'>
             <form method='post' action='controller.php'>
                 <input type='hidden' name='page' value='StartPage'>
@@ -31,6 +31,11 @@
                 <button type='button' id='signup_button' class='button_post' data-toggle='modal' data-target='#modal-signup'>Sign Up</button>
             </form>
         </div>
+    </div>
+
+    <div id='content_bottom'>
+        <img src='img/logo.png'>
+        <h1>Postify</h1>
     </div>
 
     <!-- Modal window for signup -->
