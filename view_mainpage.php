@@ -8,10 +8,10 @@
 
     <link rel="icon" href="img/logo.png">
     
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="css/mainpage.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
             <img src='img/refresh.png'>
         </div>
 
-        <div id='modify_profile_div' class='menu_div' data-toggle='modal' data-target='#modal-profile'>
+        <div id='modify_profile_div' class='menu_div' data-bs-toggle='modal' data-bs-target='#modal-profile'>
             <h3>Modify profile</h3>
             <img src='img/profile.png'>
         </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class='modal-footer'>
                     <div class='form-group'>
-                        <button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Cancel</button>
+                        <button type='button' class='btn btn-outline-primary' id='cancel_profile' data-bs-dismiss='modal'>Cancel</button>
                         <button type='button' class='btn btn-outline-primary' id='submit_profile'>Submit</button>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                 </div>
                 <div class='modal-body'>
                     <div class='form-group'>
-                        <button type='button' class='btn btn-outline-primary btn-block' data-dismiss='modal' id='post_options_button'></button>
+                        <button type='button' class='btn btn-outline-primary btn-block' data-bs-dismiss='modal' id='post_options_button'></button>
                     </div>
                 </div>
             </div>
@@ -154,7 +154,7 @@
 
     // Profile submit modal window button
     $('#submit_profile').click(function(event) {
-        $('#modal-profile').modal('hide');
+        document.getElementById('cancel_profile').click();
         let email = $('#modify_email').val();
         let status = $('#modify_status').val()
         let controller = 'controller.php';
@@ -314,7 +314,8 @@
 
             // Double click listener for post options
             $("#user_post[post-id]").dblclick(function() {
-                $('#modal-post-options').modal('show');
+                var modalPost = new bootstrap.Modal(document.getElementById('modal-post-options'));
+                modalPost.show();
 
                 let post_id = $(this).attr('post-id');
 

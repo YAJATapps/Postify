@@ -4,13 +4,12 @@
 
 <head>
     <title>Postify</title>
-    
+
     <link rel="icon" href="img/logo.png">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="css/startpage.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -30,7 +29,7 @@
                 <button type='submit' id='login_button' class='button_post'>Login</button><br><br>
                 <hr>
                 <h5>Don't have an account yet?</h5>
-                <button type='button' id='signup_button' class='button_post' data-toggle='modal' data-target='#modal-signup'>Sign Up</button>
+                <button type='button' id='signup_button' class='button_post' data-bs-toggle='modal' data-bs-target='#modal-signup'>Sign Up</button>
             </form>
         </div>
     </div>
@@ -63,7 +62,7 @@
                 </div>
                 <div class='modal-footer'>
                     <div class='form-group'>
-                        <button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Cancel</button>
+                        <button type='button' class='btn btn-outline-primary' id='dismiss_signup' data-bs-dismiss='modal'>Cancel</button>
                         <button type='button' class='btn btn-outline-primary' id='submit_signup'>Submit</button>
                     </div>
                 </div>
@@ -84,7 +83,7 @@
 
     // Submit signup button click listener
     $('#submit_signup').click(function(event) {
-        $('#modal-signup').modal('hide');
+        document.getElementById('dismiss_signup').click();
 
         let controller = 'controller.php';
         let query = 'page=StartPage&command=Signup&signup_username=' + $('#signup_username').val() + '&signup_password=' + $('#signup_password').val() + '&signup_email=' + $('#signup_email').val();
