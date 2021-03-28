@@ -75,26 +75,33 @@
 
 <script>
     // Load event
-    $(window).on('load', function() {
+    window.onload = function() {
         let error = '<?php if (isset($errorCode)) echo $errorCode; ?>';
         if (error.includes('wrong_credentials'))
             alert("Wrong credentials, Try again");
-    });
+    };
 
     // Submit signup button click listener
-    $('#submit_signup').click(function(event) {
+    document.getElementById('submit_signup').onclick = function(event) {
         document.getElementById('dismiss_signup').click();
 
-        let controller = 'controller.php';
-        let query = 'page=StartPage&command=Signup&signup_username=' + $('#signup_username').val() + '&signup_password=' + $('#signup_password').val() + '&signup_email=' + $('#signup_email').val();
-        $.post(controller, query, function(data) {
-            if (data.includes('signup_exists')) {
-                alert('Username already exists, Try again');
-            } else if (data.includes('signup_error')) {
-                alert('Error in signup, Try again');
-            } else if (data.includes('signup_success')) {
-                alert('Sign Up successful');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let data = this.responseText;
+                if (data.includes('signup_exists')) {
+                    alert('Username already exists, Try again');
+                } else if (data.includes('signup_error')) {
+                    alert('Error in signup, Try again');
+                } else if (data.includes('signup_success')) {
+                    alert('Sign Up successful');
+                }
             }
-        })
-    });
+        };  
+        let controller = 'controller.php';
+        let query = 'page=StartPage&command=Signup&signup_username=' + document.getElementById("signup_username").value + '&signup_password=' + document.getElementById("signup_password").value + '&signup_email=' + document.getElementById("signup_email").value;
+        xhttp.open("post", controller);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(query);
+    };
 </script>
